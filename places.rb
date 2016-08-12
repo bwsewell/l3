@@ -1,25 +1,25 @@
 module Places
-  def self.grocery
+  def self.grocery(address)
+    GoogleMaps::Places.nearbysearch({location: address, keyword: 'Grocery', type: 'grocery_or_supermarket'})
+  end
+
+  def self.hospital(address)
 
   end
 
-  def self.hospital
+  def self.shopping(address)
 
   end
 
-  def self.shopping
+  def self.universities(address)
 
   end
 
-  def self.universities
+  def self.restaurants(address)
 
   end
 
-  def self.restaurants
-
-  end
-
-  def self.restaurants
+  def self.restaurants(address)
 
   end
 end

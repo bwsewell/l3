@@ -1,9 +1,46 @@
 !!!
 %html{ lang: 'en', ng: { app: 'l3' }}
   %head
-    %meta{charset: "utf-8"}
-    %meta{content: "width=device-width, initial-scale=1.0", name: "viewport"}
+    %meta{ charset: "utf-8"}
+    %meta{ content: "width=device-width, initial-scale=1.0", name: "viewport"}
     %title Location, Location, Location
+    %script{ type: "text/javascript", src: "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"}
+    %script{ type: "text/javascript", src: "/js/form-controller.js"}
 
-  %body{"ng-cloak" => ""}
+  %body{ ng: { controller: 'FormController' }}
     %h1 Location, Location, Location
+
+    %label Home address
+    %input{ type: 'text', ng: { model: 'address' }, placeholder: 'Your Address' }
+
+    %br
+
+    %button{ ng: { click: 'addHouseholdMember()' }} + Add Member
+
+    %div{ ng: { repeat: 'member in household.members' }}
+      %label Workplace address
+      %input{ type: 'text', ng: { model: 'member.workAddress' }, placeholder: 'Work Address' }
+
+      %br
+
+      %label Days in office
+      %input{ type: 'number', min: 0, max: 7, ng: { model: 'member.workDays' }, placeholder: 'Work Address' }
+
+      %br
+
+      %button{ ng: { click: 'addVehicle($index)', hide: 'member.vehicle' }} + Add Vehicle
+
+      %div{ ng: { show: 'member.vehicle' }}
+        %label
+          %input{ type: 'checkbox', ng: { model: 'member.vehicle.electric' }}
+          Electric Vehicle
+        %br
+        %div{ ng: { hide: 'member.vehicle.electric'}}
+          %label Vehicle MPG
+          %input{ type: 'number', min: 0, max: 100, ng: { model: 'member.vehicle.mpg' }}
+
+    %br
+
+    %button{ ng: { click: 'submit()' }} Submit
+
+    %pre {{ res | json }}

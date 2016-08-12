@@ -1,11 +1,16 @@
 require 'rubygems'
 require 'sinatra'
+require 'sinatra/json'
 require "sinatra/reloader" if development?
 require 'net/http'
 require 'net/https'
 require 'uri'
 require 'json'
 require 'time'
+
+require_relative './places'
+require_relative './weather'
+require_relative './google_maps'
 
 DIRECTIONS_URI =  URI("https://maps.googleapis.com/maps/api/directions/json")
 PLACES_URI =      URI("https://maps.googleapis.com/maps/api/place/nearbysearch/json")
@@ -17,8 +22,8 @@ get '/' do
 end
 
 post '/' do
-  content_type :json
-  address = params[:address]
-  household = params[:household]
-  places = params[:places]
+  request.body.rewind
+  data = JSON.parse request.body.read
+  json Places.grocery(data["address"])
 end
+
